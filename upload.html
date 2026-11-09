@@ -196,42 +196,43 @@
 		console.log(del)
 
 		let files = {}
-	// 放置上次选择图片未上传导致残留信息
+	// 清空上次选择图片未上传残留的信息
 		imgs.value = null
-
+		// 上传图片逻辑
 		imgs.addEventListener('change', e => {
-
+			// 如果一次上传图片超过5张就清空字段与列表
 			if(imgs.files.length > 5) {
 				imgs.value = null
 				list.innerHTML = ""
 				list.appendChild(list_span)
 				return alert("最多只能同时上传 5 张图片！")
 			}
-
+			// 如果单张图片过大，就清除字段
 			for(let i = 0; i < imgs.files.length; i++) {
 				if(imgs.files[i].size > 5 * 1024 * 1024) {
 					imgs.value = null
 					return alert("上传文件尺寸过大，请调整文件尺寸在 5mb 以下！")
 				}
 			}
-
+			// 创建列表用于接收图片列表
 			const ul = document.createElement('ul')
 			console.log(imgs.files[0])
-
+			// 把上传的图片添加到列表项
 			for(let i = 0; i < imgs.files.length; i++) {
 				const li = document.createElement('li')
 				li.innerHTML = imgs.files[i].name
 				ul.appendChild(li)
 			}
-
+			// 清空预上传列表
 			list.replaceChildren()
+			// 添加提示信息
 			const h3 = document.createElement('h3')
 			h3.textContent = '待上传文件'
 			list.appendChild(h3)
 			list.appendChild(ul)
 			files = imgs.files
 		})
-
+		// 将选择的图片提交给 cloudinary
 		btn.addEventListener('click', async (e) => {
 			e.preventDefault()
 
@@ -240,8 +241,10 @@
 			}
 
 			const url = "https://api.cloudinary.com/v1_1/djhfb4ulh/image/upload"
+			// 显示上传进度
 			const wait = document.querySelector('.process')
 			wait.classList.add('show')
+			// 更新已上传列表
 			const h3 = document.createElement('h3')
 			h3.textContent = '已上传文件'
 			uploaded.innerHTML = ""

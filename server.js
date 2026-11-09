@@ -54,7 +54,7 @@ const server = http.createServer(async (req, res) => {
 
     if(purl.pathname === '/deleteall') {
       if(purl.query.user === 'zxz') {
-        const result = await cloudinary.api.delete_resources_by_prefix('worship/', {
+        const result = await cloudinary.api.delete_resources_by_prefix('worship1/', {
           type: 'upload'
         })
         console.log(Object.keys(result.deleted).length)
@@ -89,7 +89,7 @@ async function fetchResource() {
   try {
     const map = new Map()
     const result = await cloudinary.search
-    .expression('folder:worship')
+    .expression('folder:worship1')
     .sort_by('public_id')
     .max_results(10)
     .execute()
